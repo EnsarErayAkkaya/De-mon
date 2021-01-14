@@ -7,11 +7,11 @@ namespace Project.Player
 {
     public class PlayerAttack : MonoBehaviour
     {
-        [SerializeField] Transform attackPoint;
-        [SerializeField] PlayerAnimationHandler playerAnimationHandler;
-        [SerializeField] float pushForce;
-        [SerializeField] float attackRange;
-        [SerializeField] LayerMask enemyLayers;
+        [SerializeField] private Transform attackPoint;
+        [SerializeField] private PlayerAnimationHandler playerAnimationHandler;
+        [SerializeField] private float pushForce;
+        [SerializeField] private float attackRange;
+        [SerializeField] private LayerMask enemyLayers;
         private void Update()
         {
             if (Input.GetMouseButtonDown(0))
