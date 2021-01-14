@@ -133,31 +133,20 @@ namespace Project.Player
             // the max radius or the magnitude of the difference vector
             var distance = Mathf.Min(maxDistanceBetweenPoints, difference.magnitude);
 
-            Vector2 endPos = currentPoint.posNow + direction * distance; // bir sonraki pozisyonu bul
+            RaycastHit2D hitResult;
+            hitResult = Physics2D.BoxCast(currentPoint.posNow, boxCastSize, 0f, direction, distance, obstacle);
 
-            Vector2 boxCastDirectionY = new Vector2(0, direction.y); // hareket vectörünü bul
-            Vector2 boxCastDirectionX = new Vector2(direction.x, 0); // hareket vectörünü bul
-            //currentPoint.posOld = currentPoint.posNow; // eski pozisyonu ata
-
-            RaycastHit2D hitResult/*X,hitResultY*/;
-            hitResult = Physics2D.BoxCast(currentPoint.posNow, boxCastSize, 0f, boxCastDirectionY, distance, obstacle);
-            //hitResultY = Physics2D.BoxCast(currentPoint.posNow, boxCastSize, 0f, boxCastDirectionX, distance, obstacle);
-            Debug.DrawLine(currentPoint.posNow, endPos, Color.green, 0.05f);
-
-            /*if(hitResultX.collider != null)
+            if (hitResult.collider != null)
             {
-                direction.x = 0;
+                float xStart = direction.x, yStart = direction.y;
+                direction += hitResult.normal;
+                if (Math.Sign(direction.x) != Math.Sign(xStart))
+                    direction.x = 0;
+                if (Math.Sign(direction.y) != Math.Sign(yStart))
+                    direction.y = 0;
             }
-            if (hitResultY.collider != null)
-            {
-                direction.y = 0;
-            }*/
 
-            if (hitResult.collider == null) // there is nothin. Our way is Clean
-            {
-                // if only our path is clean then apply the end position
-                currentPoint.posNow = endPos;
-            }
+            currentPoint.posNow += direction * distance;
             return currentPoint;
         }
     }
